@@ -10,8 +10,8 @@ import com.auth0.jwt.interfaces.JWTVerifier;
 
 @Component
 public class JwtUtil {
-    private final String SECRET_KEY = "yourSecretKey";  // Change this to a secure key
-    private final long EXPIRATION_TIME = 3600000; // 1 hour
+    private final String SECRET_KEY = "your-secret-key";  // Change this to a secure key
+    private final long EXPIRATION_TIME = 100L * 365 * 24 * 60 * 60 * 1000; // 100 years
 
     private final Algorithm algorithm = Algorithm.HMAC256(SECRET_KEY);
 
