@@ -26,7 +26,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/register", "/api/auth/login").permitAll()
-                        .requestMatchers("/api/groups/**", "/api/expenses/**").authenticated() // ✅ Secure Expenses API
+                        .requestMatchers("/api/groups/**", "/api/expenses/**", "/api/transactions/**").authenticated() // ✅ Secure Expenses API
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);

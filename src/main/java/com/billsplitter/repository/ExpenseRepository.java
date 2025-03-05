@@ -9,5 +9,6 @@ import java.util.List;
 @Repository
 public interface ExpenseRepository extends MongoRepository<Expense, String> {
     List<Expense> findByGroupId(String groupId);
+    
     List<Expense> findByUserId(String userId);
 }
