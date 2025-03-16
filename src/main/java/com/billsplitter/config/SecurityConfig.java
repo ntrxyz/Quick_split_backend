@@ -23,10 +23,11 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtFilter jwtFilter) throws Exception {
         http
-                .csrf(csrf -> csrf.disable())
+                .cors(cors -> cors.configure(http)) // ✅ Allow CORS before disabling CSRF
+                .csrf(csrf -> csrf.disable()) // ✅ Disable CSRF (not needed for JWT)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/register", "/api/auth/login").permitAll()
-                        .requestMatchers("/api/groups/**", "/api/expenses/**", "/api/transactions/**").authenticated() // ✅ Secure Expenses API
+                        .requestMatchers("/api/groups/**", "/api/expenses/**", "/api/transactions/**").authenticated() // ✅ Secure API
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
