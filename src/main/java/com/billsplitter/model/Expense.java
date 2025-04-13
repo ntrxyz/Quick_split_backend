@@ -1,9 +1,11 @@
 package com.billsplitter.model;
 
 import lombok.Data;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.Instant;
 import java.util.List;
 
 @Data
@@ -17,4 +19,7 @@ public class Expense {
     private double amount;
     private String paidBy;
     private List<String> sharedWith;
+
+    @CreatedDate
+    private Instant createdAt;
 }

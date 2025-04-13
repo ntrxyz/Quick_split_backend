@@ -26,7 +26,8 @@ public class ExpenseController {
     @GetMapping("/{expenseId}")
     public ResponseEntity<?> getExpenseById(@PathVariable String expenseId) {
         Optional<Expense> expense = expenseService.getExpenseById(expenseId);
-        return expense.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+        return expense.map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping("/group/{groupId}")

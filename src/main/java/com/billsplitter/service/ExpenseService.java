@@ -4,6 +4,7 @@ import com.billsplitter.model.Expense;
 import com.billsplitter.repository.ExpenseRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,6 +17,10 @@ public class ExpenseService {
     }
 
     public Expense addExpense(Expense expense) {
+        // If createdAt is null, set it to the current timestamp.
+        if (expense.getCreatedAt() == null) {
+            expense.setCreatedAt(Instant.now());
+        }
         return expenseRepository.save(expense);
     }
 
@@ -34,6 +39,9 @@ public class ExpenseService {
     public Expense updateExpense(String expenseId, Expense updatedExpense) {
         if (expenseRepository.existsById(expenseId)) {
             updatedExpense.setId(expenseId);
+            // Preserve existing createdAt value if available.
+            Optional<Expense> existingExpense = expenseRepository.findById(expenseId);
+            existingExpense.ifPresent(exp -> updatedExpense.setCreatedAt(exp.getCreatedAt()));
             return expenseRepository.save(updatedExpense);
         }
         return null;
