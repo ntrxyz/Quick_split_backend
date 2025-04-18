@@ -6,6 +6,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -19,6 +20,7 @@ public class Expense {
     private double amount;
     private String paidBy;
     private List<String> sharedWith;
+    private List<String> settledBy= new ArrayList<>();;
 
     @CreatedDate
     private Instant createdAt;

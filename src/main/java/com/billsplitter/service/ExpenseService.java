@@ -5,6 +5,7 @@ import com.billsplitter.repository.ExpenseRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,6 +21,9 @@ public class ExpenseService {
         // If createdAt is null, set it to the current timestamp.
         if (expense.getCreatedAt() == null) {
             expense.setCreatedAt(Instant.now());
+        }
+        if (expense.getSettledBy() == null) {
+            expense.setSettledBy(new ArrayList<>());
         }
         return expenseRepository.save(expense);
     }
@@ -54,4 +58,22 @@ public class ExpenseService {
         }
         return false;
     }
+
+    public Expense markExpenseAsSettled(String expenseId, String userId) {
+        Optional<Expense> optionalExpense = expenseRepository.findById(expenseId);
+        if (optionalExpense.isPresent()) {
+            Expense expense = optionalExpense.get();
+            List<String> settledBy = expense.getSettledBy();
+            if (settledBy == null) {
+                settledBy = new java.util.ArrayList<>();
+            }
+            if (!settledBy.contains(userId)) {
+                settledBy.add(userId);
+                expense.setSettledBy(settledBy);
+                return expenseRepository.save(expense);
+            }
+        }
+        return null;
+    }
+
 }

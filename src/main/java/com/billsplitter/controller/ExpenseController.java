@@ -53,4 +53,11 @@ public class ExpenseController {
         boolean deleted = expenseService.deleteExpense(expenseId);
         return deleted ? ResponseEntity.ok("Expense deleted successfully") : ResponseEntity.notFound().build();
     }
+
+    @PatchMapping("/{expenseId}/settle/{userId}")
+    public ResponseEntity<?> settleExpense(@PathVariable String expenseId, @PathVariable String userId) {
+        Expense updatedExpense = expenseService.markExpenseAsSettled(expenseId, userId);
+        return updatedExpense != null ? ResponseEntity.ok(updatedExpense) : ResponseEntity.notFound().build();
+    }
+
 }
